@@ -1,0 +1,87 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pickup"
+version = "0.1.0"
+description = "Compare a recorded performance against its source script and emit Pro Tools markers for every discrepancy."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "Tom Addison" }]
+dependencies = [
+    "typer>=0.12",
+    "pdfplumber>=0.11",
+    "elevenlabs>=1.0",
+    "pydantic>=2.6",
+    "python-dotenv>=1.0",
+    "tenacity>=8.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "reportlab>=4.0",
+    "ruff>=0.5",
+    "mypy>=1.8",
+    "pre-commit>=3.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/<USERNAME>/pickup"
+Repository = "https://github.com/<USERNAME>/pickup"
+
+[project.scripts]
+pickup = "pickup.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pickup"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/pickup/template.dat" = "pickup/template.dat"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+extend-exclude = [".venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # bugbear
+    "UP",  # pyupgrade
+    "SIM", # simplify
+    "RUF", # ruff-specific
+]
+ignore = [
+    "E501",  # line length — handled by formatter
+    "B008",  # typer/fastapi pattern: function call in argument defaults is idiomatic
+]
+
+[tool.ruff.lint.per-file-ignores]
+# normalize.py and its tests intentionally embed smart quotes / em-dashes that
+# Word-style PDFs produce; the whole point is to recognise and strip them.
+"src/pickup/normalize.py" = ["RUF001"]
+"tests/test_normalize.py" = ["RUF001"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/pickup"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+# Third-party libraries without type stubs.
+module = ["pdfplumber.*", "elevenlabs.*"]
+ignore_missing_imports = true

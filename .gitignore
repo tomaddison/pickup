@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.coverage
+htmlcov/
+*.scribe.json
+!tests/fixtures/sample.scribe.json
+
+# Personal test material
+tests/fixtures/TEST_BOOK.pdf
+tests/fixtures/TEST_AUDIO.m4a
+samples/
