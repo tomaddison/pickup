@@ -1,6 +1,6 @@
 # Pickup
 
-[![CI](https://github.com/tomaddison/pickup/actions/workflows/ci.yml/badge.svg)](https://github.com/tomaddison/pickup/actions/workflows/ci.yml)
+[![CI](https://github.com/tomaddison/pickup/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/tomaddison/pickup/actions/workflows/ci.yml)
 
 Command line tool for comparing a recorded performance against its source script. Outputs a Pro Tools
 session (`.ptx`) containing one marker per discrepancy, ready to import session data from.
